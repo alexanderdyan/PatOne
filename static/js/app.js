@@ -13,7 +13,7 @@ function ClearAndFillTable() {
     tBody.html("");
     tHead.html("");
     
-    d3.csv("Data/PatOneData.csv", function(obj) {
+    d3.csv("data/PatOneData.csv", function(obj) {
         var parsedString = obj.date.replace('/','-').split('-');
         return {
             Date : new Date(parsedString[2], parsedString[1] - 1, parsedString[0]),
