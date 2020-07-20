@@ -13,40 +13,29 @@ function ClearAndFillTable() {
     tBody.html("");
     tHead.html("");
     
-    d3.csv("data/PatOneData.csv", function(obj) {
+    d3.csv("data/Weekly_Feb_July2020.csv", function(obj) {
         var parsedString = obj.date.replace('/','-').split('-');
         return {
-            Date : new Date(parsedString[2], parsedString[1] - 1, parsedString[0]),
-            Neutral : obj.Neutral,
-            Mission : obj.Mission,
-            FullSuite : obj.FullSuite,
-            LongTerm : obj.LongTerm,
-            Negative : obj.Negative,
-            Doubts : obj.Doubts,
-            Hopes : obj.Hopes,
-            SampleSize : obj.SampleSize,
-            RealSampleSize : obj.RealSampleSize
+            Date : new Date(2020, parsedString[1] - 1, parsedString[0]),
+            Neutral : obj.neutral,
+            Negative : obj.neg,
+            Positive : obj.pos,
+            Total : obj.total
         }
     }).then(function(data) {
+        console.log(data)
         var dateData = [];
+        var positiveData = [];
         var neutralData = [];
-        var missionData = [];
-        var fullSuiteData = [];
-        var longTermData = [];
+        var totalData = [];
         var negativeData = [];
-        var doubtsData = [];
-        var hopesData = [];
 
         data.forEach(function (currentEntry) {
             dateData.push(currentEntry.Date);
             neutralData.push(currentEntry.Neutral);
-            missionData.push(currentEntry.Mission);
-            
-            fullSuiteData.push(currentEntry.FullSuite);
-            longTermData.push(currentEntry.LongTerm);
+            positiveData.push(currentEntry.Positive);
             negativeData.push(currentEntry.Negative);
-            doubtsData.push(currentEntry.Doubts);
-            hopesData.push(currentEntry.Hopes);
+            totalData.push(currentEntry.Total);
         });
         
         // Create our first trace
@@ -55,32 +44,17 @@ function ClearAndFillTable() {
             y: neutralData,
             type: "scatter",
             mode: "line",
-            name:"Neutral"
+            name:"Neutral",
+            line:{ color:'blue', width:2 }
         };
         // Create our first trace
-        var Mission = {
+        var Positives = {
             x: dateData,
-            y: missionData,
+            y: positiveData,
             type: "scatter",
             mode: "line",
-            name:"Mission"
-        };
-        
-        // Create our first trace
-        var FullSuite = {
-            x: dateData,
-            y: fullSuiteData,
-            type: "scatter",
-            mode: "line",
-            name:"FullSuite"
-        };
-        // Create our first trace
-        var LongTerm = {
-            x: dateData,
-            y: longTermData,
-            type: "scatter",
-            mode: "line",
-            name:"LongTerm"
+            name:"Positive",
+            line:{ color:'green', width:2 }
         };
         // Create our first trace
         var Negatives = {
@@ -88,27 +62,21 @@ function ClearAndFillTable() {
             y: negativeData,
             type: "scatter",
             mode: "line",
-            name:"Negatives"
+            name:"Negatives",
+            line:{ color:'red', width:2 }
         };
         // Create our first trace
-        var Doubts = {
+        var Totals = {
             x: dateData,
-            y: doubtsData,
+            y: totalData,
             type: "scatter",
             mode: "line",
-            name:"Doubts"
-        };
-        // Create our first trace
-        var Hopes = {
-            x: dateData,
-            y: hopesData,
-            type: "scatter",
-            mode: "line",
-            name:"Hopes"
+            name:"Total",
+            line:{ color:'black', width:2 }
         };
 
         // The data array consists of both traces
-        var traceData = [Neutral, Mission, FullSuite, LongTerm, Negatives, Doubts, Hopes];        
+        var traceData = [Neutral, Positives, Negatives, Totals];        
         // Note that we omitted the layout object this time
         // This will use default parameters for the layout
         Plotly.newPlot("DataPlot", traceData);        
