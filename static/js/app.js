@@ -23,7 +23,6 @@ function ClearAndFillTable() {
             Total : obj.total
         }
     }).then(function(data) {
-        console.log(data)
         var dateData = [];
         var positiveData = [];
         var neutralData = [];
@@ -79,7 +78,17 @@ function ClearAndFillTable() {
         var traceData = [Neutral, Positives, Negatives, Totals];        
         // Note that we omitted the layout object this time
         // This will use default parameters for the layout
-        Plotly.newPlot("DataPlot", traceData);        
+        Plotly.newPlot("DataPlot", traceData,
+        { 
+            xaxis:
+            {
+                title: { text: 'Date' }
+            },
+            yaxis: 
+            {
+                title: { text: 'Number of Participants' }},
+            }
+        );        
         return data;
         
 
