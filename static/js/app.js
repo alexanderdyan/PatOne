@@ -46,6 +46,17 @@ function ClearAndFillTable() {
             name:"Neutral",
             line:{ color:'blue', width:2 }
         };
+
+        // Create our first trace
+        var NeutralTrend = {
+            x: [dateData[0],dateData[dateData.length -1]] ,
+            y: [neutralData[0],neutralData[neutralData.length -1]] ,
+            type: "scatter",
+            mode: "line",
+            name:"Neutral Trendline",
+            line:{ color:'blue', width:2 }
+        };
+
         // Create our first trace
         var Positives = {
             x: dateData,
@@ -53,6 +64,16 @@ function ClearAndFillTable() {
             type: "scatter",
             mode: "line",
             name:"Positive",
+            line:{ color:'green', width:2 }
+        };
+
+        // Create our first trace
+        var PositiveTrend = {
+            x: [dateData[0],dateData[dateData.length -1]] ,
+            y: [positiveData[0],positiveData[positiveData.length -1]] ,
+            type: "scatter",
+            mode: "line",
+            name:"Positive Trendline",
             line:{ color:'green', width:2 }
         };
         // Create our first trace
@@ -65,6 +86,15 @@ function ClearAndFillTable() {
             line:{ color:'red', width:2 }
         };
         // Create our first trace
+        var NegativesTrend = {
+            x: [dateData[0],dateData[dateData.length -1]] ,
+            y: [negativeData[0],negativeData[negativeData.length -1]] ,
+            type: "scatter",
+            mode: "line",
+            name:"Negatives Trendline",
+            line:{ color:'red', width:2 }
+        };
+        // Create our first trace
         var Totals = {
             x: dateData,
             y: totalData,
@@ -73,9 +103,18 @@ function ClearAndFillTable() {
             name:"Total",
             line:{ color:'black', width:2 }
         };
+        // Create our first trace
+        var TotalsTrend = {
+            x: [dateData[0],dateData[dateData.length -1]] ,
+            y: [totalData[0],totalData[totalData.length -1]] ,
+            type: "scatter",
+            mode: "line",
+            name:"Totals Trendline",
+            line:{ color:'black', width:2 }
+        };
 
         // The data array consists of both traces
-        var traceData = [Neutral, Positives, Negatives, Totals];        
+        var traceData = [Neutral, Positives, Negatives, Totals, NeutralTrend, PositiveTrend, NegativesTrend, TotalsTrend];        
         // Note that we omitted the layout object this time
         // This will use default parameters for the layout
         Plotly.newPlot("DataPlot", traceData,
