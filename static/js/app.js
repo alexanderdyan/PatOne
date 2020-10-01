@@ -13,13 +13,15 @@ function ClearAndFillTable() {
     tBody.html("");
     tHead.html("");
     
-    d3.csv("data/Weekly_Feb_July2020.csv", function(obj) {
+    d3.csv("data/Weekly_July_September.csv", function(obj) {
         var parsedString = obj.date.replace('/','-').split('-');
         return {
             Date : new Date(2020, parsedString[1] - 1, parsedString[0]),
             Neutral : obj.neutral,
             Negative : obj.neg,
             Positive : obj.pos,
+            ClosingPTOTF : obj.closingPTOTF, 
+            ClosingPATTO : obj.closingPATTO, 
             Total : obj.total
         }
     }).then(function(data) {
@@ -28,12 +30,16 @@ function ClearAndFillTable() {
         var neutralData = [];
         var totalData = [];
         var negativeData = [];
+        var closingStockPTOTF = [];
+        var closingStockPATTO = [];
 
         data.forEach(function (currentEntry) {
             dateData.push(currentEntry.Date);
             neutralData.push(currentEntry.Neutral);
             positiveData.push(currentEntry.Positive);
             negativeData.push(currentEntry.Negative);
+            closingStockPTOTF.push(currentEntry.ClosingPTOTF);
+            closingStockPATTO.push(currentEntry.ClosingPATTO);
             totalData.push(currentEntry.Total);
         });
         
@@ -113,8 +119,27 @@ function ClearAndFillTable() {
             line:{ color:'black', width:2 }
         };
 
+        var ClosingStockPricePTOTF = {
+            x: dateData,
+            y: closingStockPTOTF,
+            yaxis: 'y2',
+            type: "scatter",
+            mode: "line",
+            name:"PTOTF(USD)",
+            line:{ color:'rgb(150, 170, 189)', width:2 }
+        }
+        var ClosingStockPricePATTO = {
+            x: dateData,
+            y: closingStockPATTO,
+            yaxis: 'y3',
+            type: "scatter",
+            mode: "line",
+            name:"PAT.TO(CAD)",
+            line:{ color:'rgb(255, 169, 0)', width:2 }
+        }
+
         // The data array consists of both traces
-        var traceData = [Neutral, Positives, Negatives, Totals, NeutralTrend, PositiveTrend, NegativesTrend, TotalsTrend];        
+        var traceData = [Neutral, Positives, Negatives, Totals, NeutralTrend, PositiveTrend, NegativesTrend, TotalsTrend, ClosingStockPricePTOTF, ClosingStockPricePATTO];        
         // Note that we omitted the layout object this time
         // This will use default parameters for the layout
         Plotly.newPlot("DataPlot", traceData,
@@ -125,9 +150,29 @@ function ClearAndFillTable() {
             },
             yaxis: 
             {
-                title: { text: 'Number of Participants' }},
-            }
-        );        
+                title: { text: 'Number of Participants' },
+                side: 'left'
+            },
+            yaxis2:
+            {
+                //title: { text: 'Closing Stock Price PTOTF' },
+                overlaying: 'y',
+                side: 'right',
+                position:0.97,
+                showticklabels:false
+            },
+            yaxis3:
+            {
+                //title: { text: 'Closing Stock Price PAT.TO' },
+                overlaying: 'y',
+                side: 'right',
+                position:0.99,
+                showticklabels:false
+            },        
+            "legend": {
+                "x": 1.1
+            },
+        });        
         return data;
         
 
