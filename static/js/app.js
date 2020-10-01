@@ -127,7 +127,7 @@ function ClearAndFillWeeklyTable() {
             y: [totalData[0],totalData[totalData.length -1]] ,
             type: "scatter",
             mode: "line",
-            name:"Totals Trendline",
+            name:"Total Trendline",
             line:{ color:'black', width:2 }
         };
 
