@@ -13,7 +13,7 @@ function ClearAndFillWeeklyTable() {
     tBody.html("");
     tHead.html("");
     
-    d3.csv("data/Weekly_July_September.csv", function(obj) {
+    d3.csv("data/PatOne-PTD.csv", function(obj) {
         var parsedString = obj.date.replace('/','-').split('-');
         return {
             Date : new Date(2020, parsedString[1] - 1, parsedString[0]),
